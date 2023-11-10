@@ -70,17 +70,31 @@ const user = {
 //Redirect goes to a route
 //render renders a page
 
+//Backup transfer systems to pages MAKE SURE TO DELETE WHEN BUILDING SPECIAL FUNCTIONS BECAUSE THEY WILL CONFLICT
+
 app.get('/', (req, res) => {
   res.redirect('/login'); //this will call the /login route in the API
 });
 
 app.get('/register', (req, res) => {
-  res.render('pages/register')
+  res.render('Project-Code/src/views/pages/register')
+});
+
+app.get('/search', (req, res) => {
+  res.render('Project-Code/src/views/pages/search')
+});
+
+app.get('/account', (req, res) => {
+  res.render('Project-Code/src/views/pages/account')
+});
+
+app.get('/home', (req, res) => {
+  res.render('Project-Code/src/views/pages/home')
 });
 
 app.get('/login', (req, res) => {
   console.log("hi")
-  res.render('pages/login')
+  res.render('Project-Code/src/views/pages/login')
 });
 
 /*
@@ -123,7 +137,7 @@ app.post('/register', async (req, res) => {
       });
     }
     else {
-      res.render('pages/login', {message: "User already exists"});
+      res.render('Project-Code/src/views/pages/login', {message: "User already exists"});
     }
   })
 });
@@ -136,7 +150,7 @@ app.post('/login', async (req, res) => {
   db.any(userReq, user.username)
   .then(async (data) => {
     if (data == false) {
-      res.render('pages/register', {message: "Username doesn't exist"});
+      res.render('Project-Code/src/views/pages/register', {message: "Username doesn't exist"});
     }
     else {
       user.password = data[0].password;
@@ -149,7 +163,7 @@ app.post('/login', async (req, res) => {
         //res.render("pages/discover")
       }
       else { //this does work
-        res.render('pages/login', {message: "Incorrect username or password."});
+        res.render('Project-Code/src/views/pages/login', {message: "Incorrect username or password."});
       }
     }
 
@@ -172,87 +186,10 @@ app.get("/logout", (req, res) => {
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
-    return res.redirect('pages/login');
+    return res.redirect('Project-Code/src/views/pages/login');
   }
   next();
-};
-
-
-app.get('/discover', async (req, res) => {
-  console.log("opened")
-  try{
-    const listings = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {params: {apikey: process.env.API_KEY, keyword: 'Warriors', size: 10,}});
-    //console.log(listings);
-
-    //apikey: process.env.API_KEY
-    //apikey: "s6P4GQyNsVFWwP6l0ZBIBkhhOUqgvpC5"
-
-    const decrypted = listings.data._embedded.events;
-    //console.log(decrypted);
-    res.render('pages/discover', {results: decrypted});
-  }
-  catch (error) {
-    console.log("failure")
-    res.render('pages/login', {message: "didn't get data"});
-  }
-});
-
-
-/*
-app.get('/discover', async (req, res) => {
-  console.log("discover");
-
-  
-  await axios({
-    url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-    method: 'GET',
-    dataType: 'json',
-    headers: {
-      'Accept-Encoding': 'application/json',
-    },
-    data: {
-      apikey: "s6P4GQyNsVFWwP6l0ZBIBkhhOUqgvpC5",
-      keyword: 'Iron Maiden', //you can choose any artist/event here
-      size: 10 // you can choose the number of events you would like to return
-    },
-  })
-  console.log("gotApi")
-    .then(results => {
-      res.render("pages/discover", {
-        results: results.data._embedded.events,
-      })
-      //console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-    })
-    .catch(error => {
-      // Handle errors
-      console.log(error);
-    });
-});
-*/
-
-/*
-axios({
-  url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-  method: 'GET',
-  dataType: 'json',
-  headers: {
-    'Accept-Encoding': 'application/json',
-  },
-  params: {
-    apikey: process.env.API_KEY,
-    keyword: '<any artist>', //you can choose any artist/event here
-    size: 10 // you can choose the number of events you would like to return
-  },
-})
-/*
-  .then(results => {
-    console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-  })
-  .catch(error => {
-    // Handle errors
-  });
-  */
- 
+}; 
 
 // Authentication Required
 app.use(auth);

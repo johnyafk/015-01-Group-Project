@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   password VARCHAR NOT NULL,
   email VARCHAR,
   first_name VARCHAR,
-  last_name
+  last_name VARCHAR
 );
 
 DROP TABLE IF EXISTS videos CASCADE;
