@@ -1,7 +1,10 @@
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE IF NOT EXISTS users (
   username VARCHAR PRIMARY KEY,
-  password CHAR NOT NULL
+  password VARCHAR NOT NULL,
+  email VARCHAR,
+  first_name VARCHAR,
+  last_name
 );
 
 DROP TABLE IF EXISTS videos CASCADE;
