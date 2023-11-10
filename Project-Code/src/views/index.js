@@ -145,7 +145,7 @@ app.post('/login', async (req, res) => {
       if (match == true) {
         req.session.user = user;
         req.session.save();
-        res.redirect('/discover');
+        res.redirect('/home');
         //res.render("pages/discover")
       }
       else { //this does work
