@@ -1,6 +1,6 @@
 INSERT INTO users (username, password) VALUES
-("tester", "tester"),
-("testing", "testing");
+("tester", "tester", "email1@mail.com", "first", "last"),
+("testing", "testing", "email2@mail.com", "first2", "last2");
 
 INSERT INTO videos (video_id, title, url) VALUES
 (1, "I Built 100 Wells In Africa", "https://www.youtube.com/watch?v=mwKJfNYwvm8"),
