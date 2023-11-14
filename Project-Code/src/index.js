@@ -74,6 +74,39 @@ app.get('/welcome', (req, res) => {
     res.json({status: 'success', message: 'Welcome!'});
 });
 
+app.post("/login", async (req, res) => {
+    const user = {
+        username: undefined,
+        password: undefined,
+    };
+    try {
+        const query = "SELECT * FROM users WHERE username = $1;";
+        const data = await db.any(query, [req.body.username]);
+        done();
+        if (!data.length) {
+            throw new Error("User not found! Please register your account!");
+        }
+        user.username = data[0].username;
+        user.password = data[0].password;
+        //const match = await bcrypt.compare(req.body.password, user.password);
+        if (req.body.password == user.password) { //To use bcrypt change to match == true
+            req.session.user = user;
+            req.session.save();
+            //res.render("pages/home");
+            res.status(200);
+        } else {
+          res.status(404);
+          throw new Error("Incorrect username/password");
+        }
+    } catch (error) {
+        console.log("in catch block");
+        res.render("pages/login", {
+            error: true,
+            message: error.message,
+        });
+    }
+});
+
 
 
 // Authentication Middleware.
