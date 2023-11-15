@@ -82,7 +82,7 @@ app.post("/login", async (req, res) => {
     try {
         const query = "SELECT * FROM users WHERE username = $1;";
         const data = await db.any(query, [req.body.username]);
-        done();
+        //done();
         if (!data.length) {
             throw new Error("User not found! Please register your account!");
         }
@@ -92,10 +92,9 @@ app.post("/login", async (req, res) => {
         if (req.body.password == user.password) { //To use bcrypt change to match == true
             req.session.user = user;
             req.session.save();
-            //res.render("pages/home");
-            res.status(200);
+            res.render("pages/home");
         } else {
-          res.status(404);
+          res.status(200);
           throw new Error("Incorrect username/password");
         }
     } catch (error) {
@@ -105,6 +104,29 @@ app.post("/login", async (req, res) => {
             message: error.message,
         });
     }
+});
+
+//Register API's
+app.get("/register", (req, res) => {
+    res.render("pages/register");
+});
+
+app.post("/register", async (req, res) => {
+    //hash the password using bcrypt library
+    //const hash = await bcrypt.hash(req.body.password, 10);
+
+    // To-DO: Insert username and hashed password into the 'users' table
+    const query =
+        "insert into users (username, password) values ($1, $2) returning * ;";
+    db.any(query, [req.body.username, req.body.password]) //will replace with hash after fixing bcrypt function
+        // if query execution succeeds
+        .then(function (data) {
+            res.render("pages/login");
+        })
+        // if query execution fails
+        .catch(function (err) {
+            res.render("pages/register");
+        });
 });
 
 
