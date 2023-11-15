@@ -82,7 +82,6 @@ app.post("/login", async (req, res) => {
     try {
         const query = "SELECT * FROM users WHERE username = $1;";
         const data = await db.any(query, [req.body.username]);
-        //done();
         if (!data.length) {
             throw new Error("User not found! Please register your account!");
         }
@@ -138,10 +137,6 @@ app.get("/search", (req, res) => {
       url: `https://www.googleapis.com/youtube/v3/search`,
       method: 'GET',
       dataType: 'json',
-      /* headers: {
-        'Authorization': 'Bearer AIzaSyBWYswh_j0IMRRQSeKsGUhMhI9XLpO8R2I',
-        'Accept': 'application/json',
-      }, */
       params: {
         part: 'snippet',
         maxResults: 10, 
@@ -159,10 +154,6 @@ app.get("/search", (req, res) => {
         // Handle errors
       });
   });
-
-
-
-
 
 // Authentication Middleware.
 const auth = (req, res, next) => {
