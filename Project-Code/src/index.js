@@ -129,6 +129,39 @@ app.post("/register", async (req, res) => {
         });
 });
 
+app.get("/home", (req, res) => {
+    res.render("pages/home");
+});
+
+app.get("/search", (req, res) => {
+    axios({
+      url: `https://www.googleapis.com/youtube/v3/search`,
+      method: 'GET',
+      dataType: 'json',
+      /* headers: {
+        'Authorization': 'Bearer AIzaSyBWYswh_j0IMRRQSeKsGUhMhI9XLpO8R2I',
+        'Accept': 'application/json',
+      }, */
+      params: {
+        part: 'snippet',
+        maxResults: 10, 
+        q: 'how to code',
+        key: process.env.API_KEY,
+        type: 'video'
+      },
+    })
+      .then(results => {
+        console.log(results.data.items); 
+        let videos = results.data.items;
+        res.render("pages/results", {videos});
+      })
+      .catch(error => {
+        // Handle errors
+      });
+  });
+
+
+
 
 
 // Authentication Middleware.
