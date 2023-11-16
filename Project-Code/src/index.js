@@ -73,13 +73,13 @@ app.get("/", (req, res) => {
     res.redirect("/login");
 });
 
+app.get('/welcome', (req, res) => {
+    res.json({status: 'success', message: 'Welcome!'});
+});
+
 //Login API's
 app.get("/login", (req, res) => {
     res.render("pages/login");
-});
-
-app.get('/welcome', (req, res) => {
-    res.json({status: 'success', message: 'Welcome!'});
 });
 
 app.post("/login", async (req, res) => {
@@ -99,7 +99,7 @@ app.post("/login", async (req, res) => {
         if (req.body.password == user.password) { //To use bcrypt change to match == true
             req.session.user = user;
             req.session.save();
-            res.render("pages/home");
+            res.render("pages/account", {user});
         } else {
           res.status(200);
           throw new Error("Incorrect username/password");
@@ -136,6 +136,18 @@ app.post("/register", async (req, res) => {
         });
 });
 
+// Authentication Middleware.
+const auth = (req, res, next) => {
+    if (!req.session.user) {
+      // Default to login page.
+      return res.redirect('/login');
+    }
+    next();
+  };
+
+// Authentication Required
+app.use(auth);
+
 app.get("/home", (req, res) => {
     res.render("pages/home");
 });
@@ -144,7 +156,13 @@ app.get("/account", (req, res) => {
     res.render("pages/account", {user});
 });
 
-app.get("/search", (req, res) => {
+app.get("/search_page", (req, res) => {
+    res.render("pages/search", {user});
+});
+
+app.post("/search", (req, res) => {
+    console.log("Query:");
+    console.log(req.body.query);
     axios({
       url: `https://www.googleapis.com/youtube/v3/search`,
       method: 'GET',
@@ -152,7 +170,8 @@ app.get("/search", (req, res) => {
       params: {
         part: 'snippet',
         maxResults: 10, 
-        q: 'how to code',
+        q: `${req.body.query}`,
+        //q: "github",
         key: process.env.API_KEY,
         type: 'video'
       },
@@ -167,17 +186,10 @@ app.get("/search", (req, res) => {
       });
   });
 
-// Authentication Middleware.
-const auth = (req, res, next) => {
-    if (!req.session.user) {
-      // Default to login page.
-      return res.redirect('/login');
-    }
-    next();
-  };
-  
-  // Authentication Required
-  app.use(auth);
+  app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.render("pages/logout");
+    })
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
