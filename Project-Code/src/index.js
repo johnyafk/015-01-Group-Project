@@ -61,6 +61,14 @@ app.use(
 // <!-- Section 4 : API Routes -->
 // *****************************************************
 
+const user = {
+    username: undefined,
+    password: undefined,
+    email: undefined,
+    first_name: undefined,
+    last_name: undefined
+};
+
 app.get("/", (req, res) => {
     res.redirect("/login");
 });
@@ -75,10 +83,7 @@ app.get('/welcome', (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-    const user = {
-        username: undefined,
-        password: undefined,
-    };
+    
     try {
         const query = "SELECT * FROM users WHERE username = $1;";
         const data = await db.any(query, [req.body.username]);
@@ -87,6 +92,9 @@ app.post("/login", async (req, res) => {
         }
         user.username = data[0].username;
         user.password = data[0].password;
+        user.email = data[0].email;
+        user.first_name = data[0].first_name;
+        user.last_name = data[0].last_name;
         //const match = await bcrypt.compare(req.body.password, user.password);
         if (req.body.password == user.password) { //To use bcrypt change to match == true
             req.session.user = user;
@@ -130,6 +138,10 @@ app.post("/register", async (req, res) => {
 
 app.get("/home", (req, res) => {
     res.render("pages/home");
+});
+
+app.get("/account", (req, res) => {
+    res.render("pages/account", {user});
 });
 
 app.get("/search", (req, res) => {
