@@ -1,0 +1,11 @@
+11/15 Meeting
+Start 5:30
+Austin: finished up the work for Lab 11 and getting the API started 
+Michael: Accounts Page finished
+Johny: Some changes to Partial
+Henry: Finished Home page, need to discuss what to do with homepage
+Nathan: Started database, Register page work
+
+Found error with bcrypt
+Profile Picture suggested  
+Austin's and Michael's branched merged into main through pull request
