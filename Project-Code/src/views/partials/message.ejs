@@ -1,0 +1,10 @@
+<% if (locals.message) { %>
+    <div
+      class="alert alert-<%- locals.error ? 'danger' : 'success' %>"
+      role="alert">
+      <%= message %>
+    </div>
+    <% } %>
+
+<!-- <div class="col"><//%- include ('../partials/message') %></div> USE TO ADD MESSAGES INTO OTHER PARTS OF THE CODE -->
+    
