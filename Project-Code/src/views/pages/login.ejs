@@ -1,11 +1,15 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
+<<<<<<< HEAD
 <%- include ('../partials/message') %>
+=======
+>>>>>>> 66cdf173a2541dec104ffbdefa45e47fc6410061
 
 <main>
   <div class="container">
     <!-- THE REST OF YOUR HTML CODE GOES HERE -->
     <form action="/login" method="POST">
+<<<<<<< HEAD
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" />
     
@@ -13,6 +17,18 @@
         <input type="text" id="password" name="password" />
     
         <input type="submit" value="Login"/>
+=======
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input name="username" type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input name="password" type="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        Need an account? <a href="/register">Register</a>
+>>>>>>> 66cdf173a2541dec104ffbdefa45e47fc6410061
     </form>
   </div>
 </main>
