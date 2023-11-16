@@ -15,9 +15,15 @@ CREATE TABLE IF NOT EXISTS videos (
 ) */
 
 CREATE TABLE users(
-    username VARCHAR(50) PRIMARY KEY,
-    password VARCHAR(60) NOT NULL,
-    email VARCHAR,
-    first_name VARCHAR,
-    last_name VARCHAR
+  username VARCHAR(50) PRIMARY KEY,
+  password VARCHAR(60) NOT NULL,
+  email VARCHAR,
+  first_name VARCHAR,
+  last_name VARCHAR
+);
+
+CREATE TABLE userVideos(
+  username VARCHAR NOT NULL,
+  videoID VARCHAR NOT NULL,
+  videoTitle VARCHAR NOT NULL
 );

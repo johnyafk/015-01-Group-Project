@@ -3,7 +3,20 @@
 <%- include ('../partials/message') %>
 
 <main>
-    <h1>Home Page</h1>
+    <div class="container">
+        <h1>Welcome, <%= user.username %></h1>
+        <div class="row" style="min-height: 100px;">
+            <% savedVideos.forEach(video => { %>
+    
+                <div class="card" style="width: 25rem; height: 25rem;">
+                    <iframe src="http://youtube.com/embed/<%= video.videoid %>" height="300" frameborder="0"></iframe>
+                    <div class="card-body">
+                    <h5 class="card-title"> <%= video.videotitle %> </h5>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>
 </main>
 
 <%- include ('../partials/footer') %>

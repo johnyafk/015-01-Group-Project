@@ -149,7 +149,7 @@ const auth = (req, res, next) => {
 app.use(auth);
 
 app.get("/home", (req, res) => {
-    res.render("pages/home");
+    res.redirect("/home_page", {user});
 });
 
 app.get("/account", (req, res) => {
@@ -185,6 +185,43 @@ app.post("/search", (req, res) => {
         // Handle errors
       });
   });
+
+  //API to save videos for each user
+  app.post("/saveVideo", async (req, res) => {
+    const query =
+        "insert into userVideos (username, videoID, videoTitle) values ($1, $2, $3) returning * ;";
+    await db.any(query, [user.username, req.body.videoID, req.body.videoTitle]) 
+        // if query execution succeeds
+        .then(function (data) {
+            res.redirect("/home_page");
+        });
+});
+
+app.get("/home_page", async (req, res) => {
+    
+    try {
+        const query = "SELECT * FROM userVideos WHERE username = $1;";
+        const data = await db.any(query, [user.username]);
+        
+        let savedVideos = data;
+        console.log(savedVideos);
+        res.render("pages/home", {savedVideos, user});
+        
+    } catch (error) {
+        console.log("in catch block");
+        res.render("pages/login", {
+            error: true,
+            message: error.message,
+        });
+    }
+});
+
+app.get("/clear", async (req, res) => {
+    const query =
+        "DELETE FROM userVideos WHERE username = $1;";
+    await db.any(query, [user.username])
+    res.redirect("/home_page")
+});
 
   app.get("/logout", (req, res) => {
     req.session.destroy();
