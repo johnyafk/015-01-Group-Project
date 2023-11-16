@@ -1,0 +1,26 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main>
+  <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+    <div class="row" style="min-height: 100px;"></div>
+    <h1>Results</h1>
+    <div class="row" style="min-height: 100px;">
+        <% videos.forEach(video => { %>
+
+            <div class="card" style="width: 18rem;">
+                <img src="<%= video.snippet.thumbnails.default.url %>" class="card-img-top" alt="">
+                <div class="card-body">
+                <h5 class="card-title"> <%= video.snippet.title %> </h5>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+        
+            
+    </div>
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>
