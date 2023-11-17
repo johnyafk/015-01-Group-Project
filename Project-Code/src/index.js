@@ -7,7 +7,7 @@ const app = express();
 const pgp = require("pg-promise")(); // To connect to the Postgres DB from the node server
 const bodyParser = require("body-parser");
 const session = require("express-session"); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
-//const bcrypt = require("bcrypt"); //  To hash passwords
+const bcrypt = require("bcrypt"); //  To hash passwords
 const axios = require("axios"); // To make HTTP requests from our server. We'll learn more about it in Part B.
 
 // *****************************************************
@@ -95,8 +95,8 @@ app.post("/login", async (req, res) => {
         user.email = data[0].email;
         user.first_name = data[0].first_name;
         user.last_name = data[0].last_name;
-        //const match = await bcrypt.compare(req.body.password, user.password);
-        if (req.body.password == user.password) { //To use bcrypt change to match == true
+        const match = await bcrypt.compare(req.body.password, user.password);
+        if (match == true) {
             req.session.user = user;
             req.session.save();
             res.render("pages/account", {user});
@@ -120,12 +120,12 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
     //hash the password using bcrypt library
-    //const hash = await bcrypt.hash(req.body.password, 10);
-
+    const hash = await bcrypt.hash(req.body.password, 10);
+    console.log(hash);
     // To-DO: Insert username and hashed password into the 'users' table
     const query =
         "insert into users (username, password) values ($1, $2) returning * ;";
-    db.any(query, [req.body.username, req.body.password]) //will replace with hash after fixing bcrypt function
+    db.any(query, [req.body.username, hash]) //will replace with hash after fixing bcrypt function
         // if query execution succeeds
         .then(function (data) {
             res.render("pages/login");
