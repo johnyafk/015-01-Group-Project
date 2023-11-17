@@ -160,6 +160,7 @@ app.get("/search_page", (req, res) => {
     res.render("pages/search", {user});
 });
 
+let videos = undefined;
 app.post("/search", (req, res) => {
     console.log("Query:");
     console.log(req.body.query);
@@ -171,14 +172,13 @@ app.post("/search", (req, res) => {
         part: 'snippet',
         maxResults: 10, 
         q: `${req.body.query}`,
-        //q: "github",
         key: process.env.API_KEY,
         type: 'video'
       },
     })
       .then(results => {
         console.log(results.data.items); 
-        let videos = results.data.items;
+        videos = results.data.items;
         res.render("pages/results", {videos});
       })
       .catch(error => {
@@ -191,6 +191,19 @@ app.post("/search", (req, res) => {
     const query =
         "insert into userVideos (username, videoID, videoTitle) values ($1, $2, $3) returning * ;";
     await db.any(query, [user.username, req.body.videoID, req.body.videoTitle]) 
+        // if query execution succeeds
+        .then(function (data) {
+            res.render("pages/results", {videos});
+        });
+});
+
+app.post("/removeVideo", async (req, res) => {
+    const query =
+        `DELETE FROM userVideos WHERE username = '${user.username}' AND videoID = '${req.body.videoID}';`;
+    
+    console.log(query);
+
+    await db.any(query) 
         // if query execution succeeds
         .then(function (data) {
             res.redirect("/home_page");
