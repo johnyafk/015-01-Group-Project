@@ -1,5 +1,5 @@
 INSERT INTO users (username, password, email, first_name, last_name) VALUES
-('tester', 'testerpw', 'email1@mail.com', 'first', 'last'),
+('tester', '$2b$10$od36rEmITFRKZHfJTNYbtuzlZ1C/bETFhG6yTU6/78VomPD6L1.vu', 'email1@mail.com', 'first', 'last'),
 ('testing', 'testing', 'email2@mail.com', 'first2', 'last2');
 
 /* INSERT INTO videos (video_id, title, url) VALUES

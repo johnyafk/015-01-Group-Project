@@ -7,7 +7,7 @@ const app = express();
 const pgp = require("pg-promise")(); // To connect to the Postgres DB from the node server
 const bodyParser = require("body-parser");
 const session = require("express-session"); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
-//const bcrypt = require("bcrypt"); //  To hash passwords
+const bcrypt = require("bcrypt"); //  To hash passwords
 const axios = require("axios"); // To make HTTP requests from our server. We'll learn more about it in Part B.
 
 // *****************************************************
@@ -95,8 +95,8 @@ app.post("/login", async (req, res) => {
         user.email = data[0].email;
         user.first_name = data[0].first_name;
         user.last_name = data[0].last_name;
-        //const match = await bcrypt.compare(req.body.password, user.password);
-        if (req.body.password == user.password) { //To use bcrypt change to match == true
+        const match = await bcrypt.compare(req.body.password, user.password);
+        if (match == true) {
             req.session.user = user;
             req.session.save();
             res.render("pages/account", {user});
@@ -120,12 +120,12 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
     //hash the password using bcrypt library
-    //const hash = await bcrypt.hash(req.body.password, 10);
-
+    const hash = await bcrypt.hash(req.body.password, 10);
+    console.log(hash);
     // To-DO: Insert username and hashed password into the 'users' table
     const query =
         "insert into users (username, password) values ($1, $2) returning * ;";
-    db.any(query, [req.body.username, req.body.password]) //will replace with hash after fixing bcrypt function
+    db.any(query, [req.body.username, hash]) //will replace with hash after fixing bcrypt function
         // if query execution succeeds
         .then(function (data) {
             res.render("pages/login");
@@ -160,6 +160,7 @@ app.get("/search_page", (req, res) => {
     res.render("pages/search", {user});
 });
 
+let videos = undefined;
 app.post("/search", (req, res) => {
     console.log("Query:");
     console.log(req.body.query);
@@ -171,14 +172,13 @@ app.post("/search", (req, res) => {
         part: 'snippet',
         maxResults: 10, 
         q: `${req.body.query}`,
-        //q: "github",
         key: process.env.API_KEY,
         type: 'video'
       },
     })
       .then(results => {
         console.log(results.data.items); 
-        let videos = results.data.items;
+        videos = results.data.items;
         res.render("pages/results", {videos});
       })
       .catch(error => {
@@ -191,6 +191,19 @@ app.post("/search", (req, res) => {
     const query =
         "insert into userVideos (username, videoID, videoTitle) values ($1, $2, $3) returning * ;";
     await db.any(query, [user.username, req.body.videoID, req.body.videoTitle]) 
+        // if query execution succeeds
+        .then(function (data) {
+            res.render("pages/results", {videos});
+        });
+});
+
+app.post("/removeVideo", async (req, res) => {
+    const query =
+        `DELETE FROM userVideos WHERE username = '${user.username}' AND videoID = '${req.body.videoID}';`;
+    
+    console.log(query);
+
+    await db.any(query) 
         // if query execution succeeds
         .then(function (data) {
             res.redirect("/home_page");
