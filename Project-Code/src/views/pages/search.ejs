@@ -3,7 +3,16 @@
 <%- include ('../partials/message') %>
 
 <main>
-    
-</main>
+    <br>
+    <div class="container">
+      <form action="/search" method="POST">
+          <div class="mb-3">
+            <label for="query" class="form-label">Search</label>
+            <input name="query" type="text" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </main>
 
 <%- include ('../partials/footer') %>
