@@ -124,8 +124,8 @@ app.post("/register", async (req, res) => {
     console.log(hash);
     // To-DO: Insert username and hashed password into the 'users' table
     const query =
-        "insert into users (username, password) values ($1, $2) returning * ;";
-    db.any(query, [req.body.username, req.body.password]) //will replace with hash after fixing bcrypt function
+        "insert into users (username, password, email, first_name, last_name) values ($1, $2, $3, $4, $5) returning * ;";
+    db.any(query, [req.body.username, hash, req.body.email, req.body.first_name, req.body.last_name])
         // if query execution succeeds
         .then(function (data) {
             res.render("pages/login");
