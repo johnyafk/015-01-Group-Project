@@ -3,14 +3,28 @@
 <%- include ('../partials/message') %>
 
 <main>
-    Login Successful
-    <a href="/search">
-        <button type="button" class="btn btn-primary">Test Search</button>
-    </a>
-
-    <a href="/account">
-        <button type="button" class="btn btn-primary">Account</button>
-    </a>
+    <div class="container">
+        <br>
+        <h1>Welcome, <%= user.username %></h1>
+        <br>
+        <div class="row" style="min-height: 100px;">
+            <% savedVideos.forEach(video => { %>
+    
+                <div class="card" style="width: 25rem; height: 25rem;">
+                    <iframe src="http://youtube.com/embed/<%= video.videoid %>" height="300" frameborder="0"></iframe>
+                    <div class="card-body">
+                    <h5 class="card-title"> <%= video.videotitle %> </h5>
+                    </div>
+                    <form action="/removeVideo" method="POST">
+                        <div hidden class="mb-3">
+                          <input name="videoID" type="text" class="form-control" value="<%= video.videoid %>">
+                        </div>
+                        <button type="submit" class="btn btn-danger">Remove Video</button>
+                    </form>
+                </div>
+                <% }) %>
+        </div>
+    </div>
 </main>
 
 <%- include ('../partials/footer') %>

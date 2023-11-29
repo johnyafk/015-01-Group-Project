@@ -7,7 +7,7 @@ const app = express();
 const pgp = require("pg-promise")(); // To connect to the Postgres DB from the node server
 const bodyParser = require("body-parser");
 const session = require("express-session"); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
-//const bcrypt = require("bcrypt"); //  To hash passwords
+const bcrypt = require("bcrypt"); //  To hash passwords
 const axios = require("axios"); // To make HTTP requests from our server. We'll learn more about it in Part B.
 
 // *****************************************************
@@ -73,13 +73,13 @@ app.get("/", (req, res) => {
     res.redirect("/login");
 });
 
+app.get('/welcome', (req, res) => {
+    res.json({status: 'success', message: 'Welcome!'});
+});
+
 //Login API's
 app.get("/login", (req, res) => {
     res.render("pages/login");
-});
-
-app.get('/welcome', (req, res) => {
-    res.json({status: 'success', message: 'Welcome!'});
 });
 
 app.post("/login", async (req, res) => {
@@ -95,11 +95,11 @@ app.post("/login", async (req, res) => {
         user.email = data[0].email;
         user.first_name = data[0].first_name;
         user.last_name = data[0].last_name;
-        //const match = await bcrypt.compare(req.body.password, user.password);
-        if (req.body.password == user.password) { //To use bcrypt change to match == true
+        const match = await bcrypt.compare(req.body.password, user.password);
+        if (match == true) {
             req.session.user = user;
             req.session.save();
-            res.render("pages/home");
+            res.render("pages/account", {user});
         } else {
           res.status(200);
           throw new Error("Incorrect username/password");
@@ -120,12 +120,12 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
     //hash the password using bcrypt library
-    //const hash = await bcrypt.hash(req.body.password, 10);
-
+    const hash = await bcrypt.hash(req.body.password, 10);
+    console.log(hash);
     // To-DO: Insert username and hashed password into the 'users' table
     const query =
-        "insert into users (username, password, email, firstName, lastName) values ($1, $2, $3, $4, $5) returning * ;";
-    db.any(query, [req.body.username, req.body.password, req.body.email, req.body.firstName, req.body.lastName]) //will replace with hash after fixing bcrypt function
+        "insert into users (username, password) values ($1, $2) returning * ;";
+    db.any(query, [req.body.username, req.body.password]) //will replace with hash after fixing bcrypt function
         // if query execution succeeds
         .then(function (data) {
             res.render("pages/login");
@@ -136,37 +136,6 @@ app.post("/register", async (req, res) => {
         });
 });
 
-app.get("/home", (req, res) => {
-    res.render("pages/home");
-});
-
-app.get("/account", (req, res) => {
-    res.render("pages/account", {user});
-});
-
-app.get("/search", (req, res) => {
-    axios({
-      url: `https://www.googleapis.com/youtube/v3/search`,
-      method: 'GET',
-      dataType: 'json',
-      params: {
-        part: 'snippet',
-        maxResults: 10, 
-        q: 'how to code',
-        key: process.env.API_KEY,
-        type: 'video'
-      },
-    })
-      .then(results => {
-        console.log(results.data.items); 
-        let videos = results.data.items;
-        res.render("pages/results", {videos});
-      })
-      .catch(error => {
-        // Handle errors
-      });
-  });
-
 // Authentication Middleware.
 const auth = (req, res, next) => {
     if (!req.session.user) {
@@ -175,9 +144,102 @@ const auth = (req, res, next) => {
     }
     next();
   };
-  
-  // Authentication Required
-  app.use(auth);
+
+// Authentication Required
+app.use(auth);
+
+app.get("/home", (req, res) => {
+    res.redirect("/home_page", {user});
+});
+
+app.get("/account", (req, res) => {
+    res.render("pages/account", {user});
+});
+
+app.get("/search_page", (req, res) => {
+    res.render("pages/search", {user});
+});
+
+let videos = undefined;
+app.post("/search", (req, res) => {
+    console.log("Query:");
+    console.log(req.body.query);
+    axios({
+      url: `https://www.googleapis.com/youtube/v3/search`,
+      method: 'GET',
+      dataType: 'json',
+      params: {
+        part: 'snippet',
+        maxResults: 10, 
+        q: `${req.body.query}`,
+        key: process.env.API_KEY,
+        type: 'video'
+      },
+    })
+      .then(results => {
+        console.log(results.data.items); 
+        videos = results.data.items;
+        res.render("pages/results", {videos});
+      })
+      .catch(error => {
+        // Handle errors
+      });
+  });
+
+  //API to save videos for each user
+  app.post("/saveVideo", async (req, res) => {
+    const query =
+        "insert into userVideos (username, videoID, videoTitle) values ($1, $2, $3) returning * ;";
+    await db.any(query, [user.username, req.body.videoID, req.body.videoTitle]) 
+        // if query execution succeeds
+        .then(function (data) {
+            res.render("pages/results", {videos});
+        });
+});
+
+app.post("/removeVideo", async (req, res) => {
+    const query =
+        `DELETE FROM userVideos WHERE username = '${user.username}' AND videoID = '${req.body.videoID}';`;
+    
+    console.log(query);
+
+    await db.any(query) 
+        // if query execution succeeds
+        .then(function (data) {
+            res.redirect("/home_page");
+        });
+});
+
+app.get("/home_page", async (req, res) => {
+    
+    try {
+        const query = "SELECT * FROM userVideos WHERE username = $1;";
+        const data = await db.any(query, [user.username]);
+        
+        let savedVideos = data;
+        console.log(savedVideos);
+        res.render("pages/home", {savedVideos, user});
+        
+    } catch (error) {
+        console.log("in catch block");
+        res.render("pages/login", {
+            error: true,
+            message: error.message,
+        });
+    }
+});
+
+app.get("/clear", async (req, res) => {
+    const query =
+        "DELETE FROM userVideos WHERE username = $1;";
+    await db.any(query, [user.username])
+    res.redirect("/home_page")
+});
+
+  app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.render("pages/logout");
+    })
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
