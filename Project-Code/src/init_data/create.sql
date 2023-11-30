@@ -19,7 +19,8 @@ CREATE TABLE users(
   password VARCHAR(60) NOT NULL,
   email VARCHAR,
   first_name VARCHAR,
-  last_name VARCHAR
+  last_name VARCHAR,
+  profilepicurl VARCHAR DEFAULT 'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png'
 );
 
 CREATE TABLE userVideos(

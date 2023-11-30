@@ -66,7 +66,8 @@ const user = {
     password: undefined,
     email: undefined,
     first_name: undefined,
-    last_name: undefined
+    last_name: undefined,
+    profilepicurl: undefined,
 };
 
 app.get("/", (req, res) => {
@@ -239,7 +240,12 @@ app.get("/clear", async (req, res) => {
   app.get("/logout", (req, res) => {
     req.session.destroy();
     res.render("pages/logout");
-    })
+    });
+
+//profile pic route
+app.post("/postpic", async (req, res) => {
+    
+});
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->

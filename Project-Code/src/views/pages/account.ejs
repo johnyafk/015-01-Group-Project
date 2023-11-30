@@ -12,7 +12,18 @@ include ('../partials/message') %>
                 <!-- Display stuff -->
                 <h1 class="text-center">Email: <%= user.email %></h1>
                 <!-- Display stuff -->
-                <!-- testing branch-->
+
+                <!--profile pic stuff-->
+                <!-- testing profile pic (use route to send profile pic url to user)-->
+                <img src="PLACEHOLDER" alt="testing profile pic" />
+                <h1>Submit a new Profile Picture!</h1>
+                <form action="/postpic" method="POST">
+                    <div class="mb-3">
+                        <label for="profilepicurl" class="form-label">Profile Pic URL</label>
+                        <input name="profilepicurl" type="text" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </main>
     </div>
