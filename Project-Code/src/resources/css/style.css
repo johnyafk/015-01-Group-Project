@@ -16,6 +16,13 @@ body {
     font-size: 100px;
 }
 
-input[name="videoTitle"] {
-    font-size: 100px;
+input[name="query"] {
+    resize: horizontal;
+    width: 75%;
+    float:left;
+    margin: auto 5px;
+}
+
+#searchbtn {
+    background-color:gray;
 }
