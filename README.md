@@ -25,8 +25,10 @@ Running Application Locally:
   To run locally you will need Docker. With Docker you can run the website with "docker compose up -d" in the terminal inside the project folder.
   To restart the docker you can do "docker-compose restart"
   To close the docker you can do "docker-compose down
+  On the off chance there is an issue with docker about any node_module then the user will need to completely delete the node_modules folder and the package-lock.json. Once this is done when the user runs Docker again it should reinstall the node_modules locally and the application should run properly.
 
 Running Tests:
+Some tests are done automatically through mocha and chai
 
 Link to application: 
-
+Application will soon be hosted on Microsoft Azure
