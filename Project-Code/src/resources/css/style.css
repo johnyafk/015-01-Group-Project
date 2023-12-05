@@ -12,9 +12,6 @@
 body {
     font-family: Roboto;
 }
-#test {
-    font-size: 100px;
-}
 
 input[name="query"] {
     resize: horizontal;
