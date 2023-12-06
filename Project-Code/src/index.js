@@ -244,7 +244,27 @@ app.get("/clear", async (req, res) => {
 
 //profile pic route
 app.post("/postpic", async (req, res) => {
-    
+    try {
+        const profilePicUrl = req.body.profilepicurl; //extract URL from the form
+        const username = req.session.user.username; 
+
+        const updateQuery = "UPDATE users SET profilepicurl = $1 WHERE username = $2 RETURNING *;";
+        const updatedUser = await db.one(updateQuery, [profilePicUrl, username]);
+
+        //update the user object in the session
+        req.session.user = updatedUser;
+        req.session.save();
+
+        //redirect to the account page or show a success message
+        res.redirect("/account");
+    } catch (error) {
+        console.error("Error updating profile picture:", error);
+        //errors
+        res.render("pages/account", {
+            error: true,
+            message: "Failed to update profile picture."
+        });
+    }
 });
 
 // *****************************************************
