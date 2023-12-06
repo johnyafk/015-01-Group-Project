@@ -6,6 +6,10 @@ include ('../partials/message') %>
         <main>
             <div class="container">
                 <h1 class="text-center">Welcome user: <%= user.username %></h1>
+                <!-- profile pic-->
+                <div class="text-center">
+                    <img src="<%= user.profilepicurl %>" alt="Profile Picture" style="max-width: 200px; max-height: 200px;"/>
+                </div>
                 <h1 class="text-center">First Name: <%= user.first_name %></h1>
                 <!-- Display stuff -->
                 <h1 class="text-center">Last Name: <%= user.last_name %></h1>
@@ -14,8 +18,7 @@ include ('../partials/message') %>
                 <!-- Display stuff -->
 
                 <!--profile pic stuff-->
-                <!-- testing profile pic (use route to send profile pic url to user)-->
-                <img src="PLACEHOLDER" alt="testing profile pic" />
+                
                 <h1>Submit a new Profile Picture!</h1>
                 <form action="/postpic" method="POST">
                     <div class="mb-3">
