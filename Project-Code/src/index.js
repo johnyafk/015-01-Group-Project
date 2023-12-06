@@ -171,7 +171,7 @@ app.post("/search", (req, res) => {
       dataType: 'json',
       params: {
         part: 'snippet',
-        maxResults: 10, 
+        maxResults: 12, 
         q: `${req.body.query}`,
         key: process.env.API_KEY,
         type: 'video'
