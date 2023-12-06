@@ -10,7 +10,7 @@
     font-size:20px;
 }
 body {
-    font-family: Roboto;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 input[name="query"] {
