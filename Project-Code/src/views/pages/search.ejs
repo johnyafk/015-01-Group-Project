@@ -3,17 +3,17 @@
 <%- include ('../partials/message') %>
 
 <main>
-    <br>
-    <div class="container">
-      <form action="/search" method="POST">
-          <div class="mb-3">
-            <input name="query" type="text" class="form-control" placeholder="Search">
-          </div>
-          <button type="submit" id="searchbtn" class="btn btn-primary">
-            <img src="./img/magnifying-glass.png" width="20px" height="20px">
-          </button>
-      </form>
-    </div>
-  </main>
+  <br>
+  <div class="container" style="text-align: center;">
+    <form action="/search" method="POST">
+      <div class="mb-3">
+        <input name="query" type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" id="searchbtn" class="btn btn-primary border">
+        <img src="./img/magnifying-glass.png" width="20px" height="20px">
+      </button>
+    </form>
+  </div>
+</main>
 
 <%- include ('../partials/footer') %>
