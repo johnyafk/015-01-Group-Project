@@ -5,7 +5,7 @@
 const express = require("express"); // To build an application server or API
 const app = express();
 const pgp = require("pg-promise")(); // To connect to the Postgres DB from the node server
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser"); 
 const session = require("express-session"); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require("bcrypt"); //  To hash passwords
 const axios = require("axios"); // To make HTTP requests from our server. We'll learn more about it in Part B.
@@ -171,7 +171,7 @@ app.post("/search", (req, res) => {
       dataType: 'json',
       params: {
         part: 'snippet',
-        maxResults: 10, 
+        maxResults: 12, 
         q: `${req.body.query}`,
         key: process.env.API_KEY,
         type: 'video'
