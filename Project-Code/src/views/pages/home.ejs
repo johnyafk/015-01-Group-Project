@@ -10,12 +10,12 @@
         <div class="row" style="min-height: 100px;">
             <% savedVideos.forEach(video => { %>
     
-                <div class="card" style="width: 25rem; height: 25rem;">
+                <div class="card" style="width: 25rem; height: 25rem; padding-top: 10px; padding-bottom: 10px;">
                     <iframe src="http://youtube.com/embed/<%= video.videoid %>" height="300" frameborder="0"></iframe>
                     <div class="card-body">
                     <h5 class="card-title"> <%= video.videotitle %> </h5>
                     </div>
-                    <form action="/removeVideo" method="POST">
+                    <form action="/removeVideo" method="POST" style="text-align: center;">
                         <div hidden class="mb-3">
                           <input name="videoID" type="text" class="form-control" value="<%= video.videoid %>">
                         </div>

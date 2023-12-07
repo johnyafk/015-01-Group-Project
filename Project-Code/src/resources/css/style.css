@@ -1,0 +1,28 @@
+.logo {
+    height: 50px;
+    width: 50px;
+    display:block;
+    float:left;
+    margin: auto 5px;
+}
+.navbar {
+    font-weight:bold;
+    font-size:20px;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+input[name="query"] {
+    resize: horizontal;
+    width: 75%;
+    float:left;
+    margin: auto 5px;
+}
+*/
+
+
+#searchbtn {
+    background-color:gray;
+}
