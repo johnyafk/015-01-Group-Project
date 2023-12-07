@@ -20,7 +20,7 @@ CREATE TABLE users(
   email VARCHAR,
   first_name VARCHAR,
   last_name VARCHAR,
-  profilepicurl VARCHAR DEFAULT 'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png'
+  profilepicurl VARCHAR
 );
 
 CREATE TABLE userVideos(
