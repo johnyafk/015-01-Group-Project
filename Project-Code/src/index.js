@@ -151,7 +151,7 @@ const auth = (req, res, next) => {
 app.use(auth);
 
 app.get("/home", (req, res) => {
-    res.redirect("/home_page", {user});
+    res.render("pages/home", {user});
 });
 
 app.get("/account", (req, res) => {
