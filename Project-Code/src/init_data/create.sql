@@ -19,8 +19,7 @@ CREATE TABLE users(
   password VARCHAR(60) NOT NULL,
   email VARCHAR,
   first_name VARCHAR,
-  last_name VARCHAR,
-  profilepicurl VARCHAR
+  last_name VARCHAR
 );
 
 CREATE TABLE userVideos(

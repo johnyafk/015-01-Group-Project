@@ -8,7 +8,8 @@ include ('../partials/message') %>
                 <h1 class="text-center">Welcome user: <%= user.username %></h1>
                 <!-- profile pic-->
                 <div class="text-center">
-                    <img src="../../init_data/defaultpic.jpg" alt="Profile Picture" style="max-width: 200px; max-height: 200px;"/>
+                    <img src="./img/defaultpic.jpg" alt="Profile Picture" style="max-width: 200px; max-height: 200px;"/>
+                        
                 </div>
                 <h1 class="text-center">First Name: <%= user.first_name %></h1>
                 <!-- Display stuff -->
@@ -19,14 +20,14 @@ include ('../partials/message') %>
 
                 <!--profile pic stuff-->
                 
-                <h1>Submit a new Profile Picture!</h1>
+                <!--<h1>Submit a new Profile Picture!</h1>
                 <form action="/postpic" method="POST">
                     <div class="mb-3">
                         <label for="profilepicurl" class="form-label">Profile Pic URL</label>
                         <input name="profilepicurl" type="text" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                </form> -->
             </div>
         </main>
     </div>
