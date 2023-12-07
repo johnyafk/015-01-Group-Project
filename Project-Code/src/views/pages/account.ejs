@@ -6,14 +6,28 @@ include ('../partials/message') %>
         <main>
             <div class="container">
                 <h1 class="text-center">Welcome user: <%= user.username %></h1>
+                <!-- profile pic-->
+                <div class="text-center">
+                    <img src="./img/defaultpic.jpg" alt="Profile Picture" style="max-width: 200px; max-height: 200px;"/>
+                        
+                </div>
                 <h1 class="text-center">First Name: <%= user.first_name %></h1>
                 <!-- Display stuff -->
                 <h1 class="text-center">Last Name: <%= user.last_name %></h1>
                 <!-- Display stuff -->
                 <h1 class="text-center">Email: <%= user.email %></h1>
                 <!-- Display stuff -->
-                <!-- testing branch -->
-                <!-- Could add password reset option; Would require another page, security question, addition to user table, and new function -->
+
+                <!--profile pic stuff-->
+                
+                <!--<h1>Submit a new Profile Picture!</h1>
+                <form action="/postpic" method="POST">
+                    <div class="mb-3">
+                        <label for="profilepicurl" class="form-label">Profile Pic URL</label>
+                        <input name="profilepicurl" type="text" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form> -->
             </div>
         </main>
     </div>
