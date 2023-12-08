@@ -2,16 +2,14 @@
 <%- include ('../partials/menu') %>
 
 <main>
-  <div class="container">
+  <div id="loginBlock" class="container">
     <h1>Login</h1>
     <form action="/login" method="POST">
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input name="username" type="text" class="form-control">
+          <input name="username" type="text" class="form-control" placeholder="Username">
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input name="password" type="password" class="form-control">
+          <input name="password" type="password" class="form-control" placeholder="Password">
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
         Need an account? <a href="/register">Register</a>

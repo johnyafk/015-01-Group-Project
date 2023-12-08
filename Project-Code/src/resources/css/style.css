@@ -5,24 +5,46 @@
     float:left;
     margin: auto 5px;
 }
+
 .navbar {
     font-weight:bold;
     font-size:20px;
 }
+
+.circular_image {
+    margin-top: 5px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    display:block;
+    margin: 0 auto;
+}
+
+#loginBlock {
+    width: 300px;
+    height: 300px;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/*
 input[name="query"] {
+    display:block;
     resize: horizontal;
-    width: 75%;
+    width: 90%;
     float:left;
-    margin: auto 5px;
+    margin: auto 0px;
 }
-*/
-
 
 #searchbtn {
-    background-color:gray;
+    background-color:lightgray;
+    float:left;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
