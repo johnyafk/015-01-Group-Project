@@ -8,7 +8,7 @@
         <% videos.forEach(video => { %>
 
             <div class="card" style="width: 25rem; height: 20rem; padding-top: 10px; padding-bottom: 5px;">
-                <iframe src="http://youtube.com/embed/<%= video.id.videoId %>" height="300" frameborder="0"></iframe>
+                <iframe src="http://youtube.com/embed/<%= video.id.videoId %>" height="300" frameborder="0" allowfullscreen></iframe>
                 <div class="card-body">
                 <h5 class="card-title"> <%= video.snippet.title %> </h5>
                 <form action="/saveVideo" method="POST" style="text-align: center;">

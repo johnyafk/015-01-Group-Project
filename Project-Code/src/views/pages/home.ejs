@@ -11,7 +11,7 @@
             <% savedVideos.forEach(video => { %>
     
                 <div class="card" style="width: 25rem; height: 25rem; padding-top: 10px; padding-bottom: 10px;">
-                    <iframe src="http://youtube.com/embed/<%= video.videoid %>" height="300" frameborder="0"></iframe>
+                    <iframe src="http://youtube.com/embed/<%= video.videoid %>" height="300" frameborder="0" allowfullscreen></iframe>
                     <div class="card-body">
                     <h5 class="card-title"> <%= video.videotitle %> </h5>
                     </div>
