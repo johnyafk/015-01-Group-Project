@@ -31,4 +31,7 @@ Running Tests:
 Some tests are done automatically through mocha and chai
 
 Link to application: 
-Application will soon be hosted on Microsoft Azure
+http://recitation-15-team-01.eastus.cloudapp.azure.com:3000/login
+
+If website is no longer hosted there here is the link back to the github if needed:
+https://github.com/johnyafk/015-01-Group-Project
